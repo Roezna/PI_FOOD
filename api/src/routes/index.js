@@ -2,6 +2,9 @@ const { Router } = require('express');
 require('dotenv').config();
 const {API_KEY} = process.env;
 const axios = require('axios').default;
+const {conn} = require('../db.js')
+const { Recipe, Type_diet} = conn.models;
+
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 
@@ -25,29 +28,81 @@ En una primera instancia, cuando no exista ninguno, deberán precargar la base d
 Recibe los datos recolectados desde el formulario controlado de la ruta de creación de recetas por body
 Crea una receta en la base de datos */
 
-router.get('/recipes',(req,res) => {
+router.get('/recipes',async (req,res) => {
+try{
 
-  axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&query=${req.query.name}`)
-  .then(data => {
-      res.send(data.data)
-  })
-  .catch(err => {
-      console.log(err)
-  })
+    const query = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?number=6&addRecipeInformation=true&apiKey=${API_KEY}`)
+
+    res.send(query.data.results)
+
+/*     if(req.query.name){
+       
+        let busqueda = []
+        
+        query.data.results.forEach((elemento, id)=>{
+
+            if(elemento.title.includes(req.query.name)){
+                busqueda.push(elemento)
+            }
+
+        })
+
+        res.send(busqueda)
+
+    }
+
+    else{
+      res.send(query.data.results)
+    }   */
+
+}
+catch{
+      res.send('error')
+  }
   
 })
 
-router.get('/recipes/:id',(req,res) => {
+ router.get('/recipes/:id',async (req,res) => {
 
-    const {id} = req.params
+try{     
+    const query = await axios.get(`https://api.spoonacular.com/recipes/${req.params.id}/information?apiKey=${API_KEY}`)
+    res.send(query.data)  
+}
+catch{
+    res.send('Error')
+}
 
-    axios.get(`https://api.spoonacular.com/recipes/complexSearch?id=${id}&apiKey=${API_KEY}`)
-    .then(data => {
-        console.log(data.data)
+}) 
+
+router.get('/types', async (req,res) => {
+
+    try{
+        const query = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&number=100&apiKey=${API_KEY}`)
+        if(type === query.data.diets){
+            res.send(query.data)
+        }
+    }
+    catch{
+        res.send('Error')
+    }
+   
+})
+
+router.post('/recipe', async (req,res) => {
+
+    const {name,resume,reputation,level_health,steps,diets} = req.body
+
+
+        await Recipe.create({
+        name: name,
+        resume: resume,
+        reputation : reputation,
+        level_health : level_health,
+        steps : steps,
+        diets : diets
     })
-    .catch(err => {
-        console.log(err)
-    })
+
+    await res.send('se cargo piola')
 
 })
 
