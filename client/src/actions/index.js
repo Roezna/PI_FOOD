@@ -1,20 +1,38 @@
 export const search = (recipe) =>{
-    return  function(dispatch){
-        return fetch(`http://localhost:3001/recipes?name=${recipe}`)
-        .then(data => data.json())
-        .then(data => dispatch({
+    return  {
             type: 'GET_RECIPES',
-            payload : data
-        }))
-    }
+            payload : recipe
+            }
 }
-export const getRecipes = () =>{
+export const getRecipes = (condition) =>{
+    if(condition){
     return  function(dispatch){
         return fetch(`http://localhost:3001/recipes`)
         .then(data => data.json())
         .then(data => dispatch({
-            type: 'GET_RECIPES',
-            payload : data
+            type: 'GET_ALL_RECIPES',
+            payload :{
+            data :data,
+             condition : condition
+            }
+
         }))
+    }
+}
+else{
+    return {
+        type: 'GET_ALL_RECIPES',
+        payload :{
+             condition : condition
+        }
+    }
+}
+    
+ 
+}
+export const getRecipeDetail = (id) =>{
+    return  {
+            type: 'GET_RECIPE_DETAIL',
+            payload : id
     }
 }

@@ -1,3 +1,7 @@
+.contenedor{
+    display: flex;
+    flex-direction: column;
+}
 #divCards{
     display: flex;
     flex-direction: row;
@@ -6,13 +10,24 @@
     width: 100%;
     flex-wrap: wrap;
 }
+.detail{
+    text-decoration: none;
+}
+
 .card{
     display: flex;
     flex-direction: column;
     width: 100%;
     max-width: 300px;
     margin: 20px;
-    background-color: rgb(245, 245, 245);
+    background-color: rgb(247 247 247 / 84%);
+    border-radius: 5px;
+    transition: all .3s ease-in-out;
+}
+.card:hover{
+    transform: scale(1.03);
+    background-color:  rgba(241, 177, 0, 0.247);
+ 
 }
 #cardDiet{
     width: 100%;
@@ -21,6 +36,15 @@
     flex-direction: column;
     align-items: center;
 }
+#cardTitle{
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #ff9900;
+}
+#cardImagen{
+    width: 100%;
+}   
 .diet{
     display: flex;
     flex-direction: row;
@@ -28,12 +52,30 @@
     justify-content: center;
 }
 .typeDiet{
-    margin: 5px;
+    margin: 5px 5px;
+    color: #f37100a6;
+}
+.item{
+    font-weight: 800;
 }
 #titleDiet{
     font-size: 1em;
-    font-weight: 500;
+    font-weight: 400;
     width: 100%;
     display: flex;
     justify-content: center;
+    margin-top: 10px;
+    color: black;
+}
+.searchBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.result{
+    font-size: 1.2em;
+}
+.resultData{
+    font-weight: 600;
+    color: #ff9900;
 }

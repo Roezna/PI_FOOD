@@ -1,19 +1,34 @@
 import '../styles/Cards.css'
-export default function Card({image,title,diet}){
+import { Link } from 'react-router-dom'
+import { getRecipeDetail } from '../actions'
+import { useDispatch } from 'react-redux';
+
+export default function Card({image,title,diet,id}){
+
+    const dispatch = useDispatch();
+
+    const handleClick = (id) =>  {
+        dispatch(getRecipeDetail(id))
+    }   
 
 return(
-    <div className='card'>
+   <div className='card' key={id}>
+       <Link to='/recipeDetail'  className='detail' onClick={() => handleClick(id)}>
+    
         <p id='cardTitle'>{title}</p>
-        <img id='cardImagen' src={image} alt="" />
+        <img id='cardImagen' src={image} alt={title} />
         <div id='cardDiet'>
-            <span id='titleDiet'>Tipos de dieta:</span>
+            <span id='titleDiet'>Type of diet</span>
             
         </div>
         <div className='diet'>
-        {diet.map(element => {
-            return <span className='typeDiet'><i>· {element}</i></span>
+        {diet.map((element,indice) => {
+            return<span className='typeDiet' key={indice}>
+                <i><span className='item'>-</span> {element}</i>
+                </span>
         })}
         </div>
+        </Link>
     </div>
 )
 
