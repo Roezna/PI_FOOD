@@ -1,8 +1,8 @@
 import '../styles/Home.css'
 import { Link } from "react-router-dom"
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { search, getRecipes} from '../actions/index'
+import { useDispatch } from 'react-redux'
+import { search} from '../actions/index'
 
 export default function Nav({place}){
 
@@ -22,7 +22,7 @@ export default function Nav({place}){
                return;
         }
 
-    },[busqueda])
+    },[busqueda,place,dispatch])
 
 
     const handleChange = (e) => {
@@ -49,11 +49,14 @@ return(
             <div className='logo'>
                 <i id='name'>MORE</i>
             </div>
-            {place && <div className='buscador'>
+            <div className='buscador'>
+            {place && <div>
                 <span className='indicador'>Search</span>
                 <input type="text" className='input'  value={busqueda} onChange={(e) => handleChange(e)} placeholder="recipe..."/>
-            </div>}
-    </div>
+                </div>
+                }
+            </div>
+            </div>
 )
 
 }

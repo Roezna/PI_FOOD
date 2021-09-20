@@ -72,8 +72,13 @@
     justify-content: center;
     align-items: center;
 }
-.result{
+.goodResult{
     font-size: 1.2em;
+    color: rgba(119, 199, 0, 0.842);
+}
+.badResult{
+    font-size: 1.2em;
+    color: rgba(255, 0, 0, 0.822);
 }
 .resultData{
     font-weight: 600;

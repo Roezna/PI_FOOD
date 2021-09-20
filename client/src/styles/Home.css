@@ -6,7 +6,6 @@
     flex-direction:row;
     justify-content: space-around;
     align-items: center;
-    flex-wrap: wrap;
     width: 100%;
     height: auto;
     background-color:  rgb(241, 177, 0);
@@ -14,9 +13,14 @@
 #name{
     font-size: 2em;
     font-weight: 500;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 .routes{
     display: flex;
+    justify-content: flex-start;
+    width: 100%;
 }
 .navLink{
     margin: 0 10px;
@@ -31,6 +35,8 @@
 }
 .buscador{
     display: flex;
+    width: 100%;
+    justify-content: flex-end;
 }
 .input{
     margin: 0 10px;
@@ -43,4 +49,19 @@
     font-weight: 500;
     color: white;
 }
-
+@media(max-width:680px){
+    #name{
+        display: none;
+    }
+    .navbar{
+        flex-direction: column;
+    }
+    .buscador{
+        justify-content: center;
+        margin: 10px auto;
+    }
+    .routes{
+        justify-content: center;
+        margin: 5px auto;
+    }
+}

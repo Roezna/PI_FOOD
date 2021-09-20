@@ -1,0 +1,83 @@
+.containerDetail{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+
+}
+.recipeDetail{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.division1{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    max-width: 50%;
+    width: 100%;
+}
+.division2{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    max-width: 50%;
+    width: 100%;
+    margin-top: -20px;
+}
+#divTitle{
+    display: flex;
+    background-color:rgba(241, 177, 0, 0.247);
+    margin: 30px auto;
+    display: flex;
+    border-radius: 10px;
+}
+#titleD{
+    font-size: 2em;
+    padding: 10px;
+    color:#ff9900;
+    text-align: center;
+}
+#imgD{
+    display: flex;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 20px;
+}
+#typeD{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    margin-top: -15px;
+}
+.dietsD{
+    display: flex;
+    margin: 0 5px;
+    color: #ff99009a;
+}
+.subtitle{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    color: #ff9900;
+    font-size: 1.3em;
+}
+.middle{
+    color: black;
+    margin: 0 5px;
+}
+#puntuation{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 30px auto;
+}
+.itemStep{
+    color:  #ff9900;
+}
