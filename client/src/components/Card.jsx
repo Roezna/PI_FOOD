@@ -1,6 +1,6 @@
 import '../styles/Cards.css'
 import { Link } from 'react-router-dom'
-import { getRecipeDetail } from '../actions'
+import { getRecipeDetail, loading } from '../actions'
 import { useDispatch } from 'react-redux';
 
 export default function Card({image,title,diet,id}){
@@ -8,6 +8,7 @@ export default function Card({image,title,diet,id}){
     const dispatch = useDispatch();
 
     const handleClick = (id) =>  {
+        dispatch(loading())
         dispatch(getRecipeDetail(id))
     }   
 
@@ -22,7 +23,7 @@ return(
             
         </div>
         <div className='diet'>
-        {diet.map((element,indice) => {
+        {diet && diet.map((element,indice) => {
             return<span className='typeDiet' key={indice}>
                 <i><span className='item'>-</span> {element}</i>
                 </span>

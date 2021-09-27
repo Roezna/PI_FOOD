@@ -44,6 +44,13 @@
 }
 #cardImagen{
     width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
 }   
 .diet{
     display: flex;
@@ -83,4 +90,59 @@
 .resultData{
     font-weight: 600;
     color: #ff9900;
+}
+.pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 280px;
+}
+.btn-page{
+    display: flex;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    color: #ff9900;
+    background-color: black;
+}
+.btn-page:hover{
+    color: #ffffff;
+    background-color: rgb(255, 187, 0);
+}
+.dataPagination{
+    font-size: 1.1em;
+    color: #ff9900;
+    margin: 0 10px
+}
+.POF{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    margin: 20px 0;
+}
+.select{
+    display: flex;
+    justify-content: center;
+    max-width: 200px;
+    width: 100%;
+}
+.elSelect{
+    width: 100%;
+    margin: 0px 10px;
+    padding: 5px;
+    background-color:  rgb(241, 177, 0);
+    color:  white;
+    cursor: pointer;
+    border: none;
+}
+.option{
+    color: white;
+    border: 1px solid white;
+}
+.option:checked{
+    background-color: rgb(255, 255, 255);
+    color: rgb(255, 153, 0);
 }

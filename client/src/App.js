@@ -2,6 +2,7 @@ import './styles/App.css';
 import Landing from './components/Landing';
 import Home from './components/Home';
 import Recipe from './components/Recipe';
+import CreateRecipe from './components/CreateRecipe';
 import { Route } from 'react-router-dom'
 
 function App() {
@@ -15,6 +16,9 @@ function App() {
       </Route>
       <Route exact path='/recipeDetail'>
         <Recipe />
+      </Route>
+      <Route exact path='/recipe'>
+        <CreateRecipe />
       </Route>
 
     </div>

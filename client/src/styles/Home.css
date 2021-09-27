@@ -1,26 +1,41 @@
 .home{
     width: 100%;
 }
+.carga{
+    width: 100%;
+    background:  linear-gradient(
+        rgba(255, 255, 255, 0.336),
+        rgba(0, 0, 0, 0.281)
+      );
+}
 .navbar{
     display: flex;
     flex-direction:row;
-    justify-content: space-around;
+    justify-content: space-around ;
+    flex-wrap: wrap;
     align-items: center;
     width: 100%;
     height: auto;
     background-color:  rgb(241, 177, 0);
 }
+.logo{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    max-width: 100px;
+}
 #name{
     font-size: 2em;
     font-weight: 500;
-    display: flex;
-    justify-content: center;
-    width: 100%;
+    color: rgb(255, 145, 0);
+    -webkit-text-stroke: 1px rgb(255, 222, 173);
 }
 .routes{
     display: flex;
     justify-content: flex-start;
     width: 100%;
+    max-width: 40%;
 }
 .navLink{
     margin: 0 10px;
@@ -36,32 +51,93 @@
 .buscador{
     display: flex;
     width: 100%;
+    max-width: 40%;
     justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.direccion{
+ display: flex;
+ justify-content: flex-end;
+ align-items: center;
+ width: 100%;
 }
 .input{
-    margin: 0 10px;
+    display: flex;
+    width: 100%;
+    max-width: 200px;
     padding: 4px;
     font-size: 1em;
-    border:none;
+    border: none;
 }
 .indicador{
-    font-size: 1.2em;
-    font-weight: 500;
-    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 90px;
+    height: 30px;
+    margin-left: 15px;
+    background-color: black;
+    color: #ff9900;
+    font-size: 1em;
+    border: none;
+    cursor: pointer;
 }
-@media(max-width:680px){
+.indicador:hover{
+    background-color:  #707070;
+    color: rgb(255, 255, 255);
+    border: rgb(255, 123, 0) 1px solid;
+}
+.errorLabel{
+    display: flex;
+    justify-content: flex-end;
+    height: 100%;
+    max-height: 10%;
+    width: 100%;
+    font-size: 12px;
+    color: rgb(255, 0, 0);
+    margin-right: 5px;
+}
+.error{
+    border: 2px solid red;
+} 
+.loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: logo 1s infinite ease-in-out ;
+}
+.logito{
+ 
+    font-size: 4em;
+}
+@keyframes logo {
+    0% {
+      color: black;
+    }
+    50% {
+      color: #ff9900;
+    }
+  }
+@media(max-width:690px){
+    .logo{
+        display: none;
+    }
     #name{
         display: none;
     }
+
     .navbar{
-        flex-direction: column;
+        display: flex;
+        justify-content: space-around;
     }
     .buscador{
-        justify-content: center;
-        margin: 10px auto;
+        display: flex;
+        width: 100%;
     }
     .routes{
         justify-content: center;
-        margin: 5px auto;
+        width: 100%;
     }
 }

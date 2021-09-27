@@ -1,25 +1,108 @@
 import Card from './Card'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import '../styles/Cards.css'
+import { useState } from 'react'
+import { orderRecipes, filterRecipe } from '../actions'
 
 export default function Cards(){
+
 
    let recipes = useSelector(state => state.recipesLoaded)
    let searching = useSelector(state => state.searching)
    let allRecipes = useSelector(state => state.allRecipes)
+   const dispatch = useDispatch()
+   const [change, setChange] = useState(false)
+   const [count, setCount] = useState(1)
+
+   const types = ['gluten Free', 'ketogenic', 'vegetarian', 'lacto ovo vegetarian',
+'vegan', 'pescetarian', 'paleo', 'primal', 'whole30', 'dairy free']
+
+
+   const [currentPage, setCurrentPage] = useState(0);
+
+   const filteredRecipes = (array) => {
+       return array.slice(currentPage,currentPage + 9)
+   }
+
+   const next = (e) =>{
+        e.preventDefault();
+        if((allRecipes.length-1) > currentPage + 5){
+        setCurrentPage(currentPage + 9)
+        setCount(count + 1)
+    }
+
+   }
+
+   const prev = (e) =>{
+    e.preventDefault();
+    if(currentPage < 1) return
+    setCurrentPage(currentPage - 9)
+    setCount(count - 1)
+
+}
+const order = async (e) => {
+    e.preventDefault();
+    setChange(false)
+    await dispatch(orderRecipes(e.target.value))
+    setChange(true)
+  
+}
+
+const filter = async (e) =>{
+    e.preventDefault();
+    setChange(false)
+   await dispatch(filterRecipe(e.target.value))
+    setChange(true)
+}
+
 
     return(
         <div className='contenedor'>
-            {searching !== '' && recipes.length > 0 &&
+
+
+            {searching !== '' && recipes !== 'error' &&
             <div className='searchBox'>
                 <p className='goodResult'>Results for: <span className='resultData'>"{searching}"</span></p>
             </div>}
-            {searching !== '' && recipes.length < 1 &&
+            {searching !== '' && recipes === 'error' &&
             <div className='searchBox'>
                 <p className='badResult'>Results not found for: <span className='resultData'>"{searching}"</span></p>
             </div>}     
+            
+        <div className='POF'>
+        
+        <div className='select'>
+            <select onChange={(value) => order(value)} className='elSelect'>
+            <option value="">Order By</option>
+            <option className='option' value='asc' >Name (asc)</option>
+            <option className='option' value='desc' >Name (desc)</option>
+            <option className='option' value='health' >Máx. Health Score</option>
+            <option className='option' value='spoon' >Máx. Spoonacular Score</option>
+            </select>
+            
+        </div>
+
+           <div className='pagination'>
+             <button className='btn-page' onClick={(e) => prev(e)}>{'<'} Prev</button> 
+             <span className='dataPagination'>Page: {count}/{Math.ceil(recipes === null || recipes === 'error' ? allRecipes.length/9 : recipes.length/9)}</span>
+             <button className='btn-page' onClick={(e) => next(e)}>Next {'>'} </button>
+             </div> 
+
+             <div className='select'>
+            <select onChange={(value) => filter(value)} className='elSelect'>
+            <option value="">Filter By</option>
+            {types.map((elemento)=>{
+                return <option className='option' value={elemento}>{elemento}</option>
+            })}
+            </select>
+            
+        </div>
+      
+        </div>
+
         <div id='divCards'>
-            {!recipes.length && searching === "" && allRecipes.map(function(recipe){
+            
+            {(recipes === null || recipes === 'error')  && filteredRecipes(allRecipes).map(function(recipe){
                return <Card 
                key={recipe.id}
                image={recipe.image}
@@ -29,15 +112,17 @@ export default function Cards(){
                />
             })}
         
-             {recipes && searching !== '' && recipes.map(function(recipe){
+          {recipes !== 'error' && recipes !== null  && filteredRecipes(recipes).map(function(recipe){
                return <Card key={recipe.id}
                image={recipe.image}
                title={recipe.title}
                diet={recipe.diets}
                id={recipe.id}
                />
-            })}
+            })}  
+           
         </div>
+        
         </div>
     )
 }

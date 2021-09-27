@@ -1,41 +1,41 @@
 import '../styles/Home.css'
 import { Link } from "react-router-dom"
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { search} from '../actions/index'
+import { loading, search} from '../actions/index'
+import { getRecipes } from '../actions/index'
 
 export default function Nav({place}){
 
     const [busqueda, setBusqueda] = useState('')
+    
+    const [error, setError] = useState('')
+
     const dispatch = useDispatch();
  
+    const handleClick = (e) => {
 
-    useEffect(()=>{
-        if(place === false){
-            return
-        }
-        if(busqueda !== ''){
+        
+        e.preventDefault()
+
+            if(busqueda === ''){
+                setError('Ingrese un valor de búsqueda')
+                return
+            }
+            dispatch(loading())
             dispatch(search(busqueda))
-            return
-        }
-        if(busqueda === ''){ 
-               return;
         }
 
-    },[busqueda,place,dispatch])
+        const handleChange = (e) => {
+            e.preventDefault()
+            
+            setError('')
 
-
-    const handleChange = (e) => {
-        if(e.target.value === ''){
-            dispatch(search(''))
-            setBusqueda(e.target.value) 
-            return
+            setBusqueda(e.target.value)
         }
-        setBusqueda(e.target.value) 
 
-    }
     const home = () => {
-        return
+        dispatch(getRecipes(false))
     }
 
 
@@ -50,9 +50,11 @@ return(
                 <i id='name'>MORE</i>
             </div>
             <div className='buscador'>
-            {place && <div>
-                <span className='indicador'>Search</span>
-                <input type="text" className='input'  value={busqueda} onChange={(e) => handleChange(e)} placeholder="recipe..."/>
+            {place && <div className='direccion'>
+            {error !== '' && <span className='errorLabel'>{error}</span>}     
+                <input type="text" className={`input ${error !== '' && 'error'}`} value={busqueda} onChange={(e) => handleChange(e)}  placeholder="recipe..."/>
+                <button className='indicador' onClick={(e) => handleClick(e)}>Search</button>
+                
                 </div>
                 }
             </div>

@@ -1,8 +1,17 @@
+
 export const search = (recipe) =>{
-    return  {
+    return  function(dispatch){
+        return fetch(`http://localhost:3001/recipes?name=${recipe}`)
+        .then(data => data.json())
+        .then(data => dispatch({
             type: 'GET_RECIPES',
-            payload : recipe
+            payload : {
+                data : data,
+                recipe : recipe
             }
+        }))
+    }
+
 }
 export const getRecipes = (condition) =>{
     if(condition){
@@ -31,8 +40,78 @@ else{
  
 }
 export const getRecipeDetail = (id) =>{
-    return  {
+    return  function(dispatch){
+        return fetch(`http://localhost:3001/recipes/${id}`)
+        .then(data => data.json())
+        .then(data => {
+            dispatch({
             type: 'GET_RECIPE_DETAIL',
-            payload : id
+            payload : data
+        })
     }
+    )
+    }
+}
+
+export const  createRecipe = (obj) => {
+            
+         return function(dispatch){
+
+            const formdata = new FormData()
+            formdata.append('image', obj.image)
+            formdata.append('name', obj.name)
+            formdata.append('resume', obj.resume)
+            formdata.append('healthScore', obj.healthScore)
+            formdata.append('spoonScore', obj.spoonScore)
+            formdata.append('diets', obj.diets)
+            formdata.append('steps', obj.steps)
+
+        return fetch(`http://localhost:3001/recipe`, {
+            method: 'POST',
+            body: formdata
+         })
+        .then(res => res.json())
+        .then(res => {
+            dispatch({
+            type: 'CREATE_RECIPE',
+            payload : {
+                message : res.message,
+                recipe : res.data
+            }
+        })
+    })
+    
+    }
+    
+}
+
+export const loading = () => {
+    return{
+        type : 'LOADING'
+    }
+}
+
+export const orderRecipes = (op) => {
+    return{
+        type : 'ORDER',
+        payload: op
+    }
+}
+
+export const filterRecipe = (type) => {
+    return function(dispatch){
+        return fetch(`http://localhost:3001/types?type=${type}`)
+        .then(res => res.json())
+        .then(res => {
+            dispatch({
+            type: 'FILTER',
+            payload : {
+                data : res.data,
+                diet : type
+            }
+        })
+    })
+    
+    }
+
 }

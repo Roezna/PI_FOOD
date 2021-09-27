@@ -1,0 +1,305 @@
+#createRecipe{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.formulario{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+}
+#titleCreate{
+    text-align: center;
+    font-size: 2em;
+    margin: 20px auto;
+    font-weight: 500;
+    color:#ff9900;
+}
+.form input{
+    color: #ff9900;
+    border: none;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 65%;
+    background-color: rgba(241, 177, 0, 0.103);
+    height: 100%;
+}
+.firstData{
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.division{
+    display: flex;
+    flex-direction:column ;
+    width: 100%;
+}
+.childText{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.order{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    margin: 10px 10px;
+    max-width: 300px;
+    text-align: center;
+
+}
+
+label{
+    margin-bottom: 5px;
+}
+.inputTitle{
+    font-weight: 500;
+    font-size: 1em;
+    color: rgb(58, 58, 58);
+    padding: 3px;
+    background-color: rgba(255, 123, 0, 0.075);
+    border-radius: 5px;
+}
+.text{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    color: #ff9900;
+    font-size: 1em;
+    border: 0px;
+}
+.score{
+    margin: 0 auto;
+    width: 100%;
+    max-width: 50px;
+    height: 20px;
+}
+.stepsCreate{
+    width: 100%;
+    border: none;
+    display: flex;
+    max-width: 300px;
+}
+.stepAndTypes{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.addSteps{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+   align-items: center;
+   margin: 30px auto;
+   max-width: 300px;
+}
+.addSteps button{
+    width: 100px;
+    height: 30px;
+    margin: 10px 0px;
+    border-radius: 5px;
+    background-color: black;
+    box-shadow: 1px 1px 1px;
+    color: #ff9900;
+    font-size: 1em;
+    border: none;
+    cursor: pointer;
+}
+.addSteps button:hover{
+    background-color:  white;
+    color: #ff9900c7;
+    border: rgb(255, 136, 0) 1px solid;
+}
+.typesDiet{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 20px;
+}
+.typesDiet label{
+    margin-bottom: 20px;
+    display: flex;
+}
+#orderTypes{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.multipleTypes{
+    display: flex;
+    width: 100%;
+    max-width: 150px;
+    color: rgba(0, 0, 0, 0.527);
+}
+
+.multipleTypes input{
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    background-color: white;
+    margin-right: 5px;
+    
+}
+.multipleTypes .on{
+    background-color: #ff9900;
+    color: white;
+}
+
+.file{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 30px auto;
+}
+.image{
+    margin: 10px auto;
+}
+.preview{
+    width: 100%;
+    max-width: 35%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(214, 214, 214, 0);
+}
+.previewImage{
+    display: flex;
+    justify-content: center;
+    margin: 0px auto;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    max-height: 200px;
+    margin-top: 20px;
+}
+.previewImage img{
+    display: flex;
+    width: 100%;
+    max-width: 200px;
+}
+.divPreviewTitle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border-radius: 10px;
+    background-color:rgba(241, 177, 0, 0.247);
+}
+.previewTitle{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    font-size: 1.8em;
+    font-weight: 500;
+   color: #ff9900;
+   padding: 5px;
+   
+}
+.previewTypeAndScore{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+}
+.previewfila{
+    display: flex;
+    width: 100%;
+    max-width: 300px;
+    flex-direction: column;
+    margin: 10px auto;
+}
+.previewResume{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+.previewText{
+    display: flex;
+    justify-content: flex-start;
+    text-align: flex-start;
+    max-width: 400px;
+    padding: 5px;
+}
+.previewTypesDiets{
+    display: flex;
+    width: 100%;
+    max-width: 400px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.previewSubtitle{
+    text-align: center;
+    width: 100%;
+    color: #ff9900;
+    font-size: 1.3em;
+}
+.listSteps{
+    display: flex;
+    width: 100%;
+    max-width: 300px;
+    justify-content: space-between;
+    flex-direction:  row;
+    margin: 10px auto;
+    background-color: rgb(255, 245, 233);
+    border-radius: 5px
+}
+.eliminarStep{
+    background-color: rgb(255, 94, 94);
+    height: 20px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    top: 0;
+    right: 0;
+}
+.eliminarStep:hover{
+    background-color: red;
+}
+.crear {
+    width: 150px;
+    height: 50px;
+    margin-bottom: 20px;
+    background-color: white;
+    box-shadow: 2px 2px 10px;
+    color: #ff9900;
+    font-size: 1.5em;
+    border: none;
+    cursor: pointer;
+}
+.crear:hover{
+    background-color: black;
+    color: #ff9900c7;
+    border: rgb(255, 136, 0) 1px solid;
+    box-shadow: none;
+}
+.setErrors{
+    display: flex;
+    justify-content: center;
+    font-size: 13px;
+    color: rgb(255, 71, 71);
+}

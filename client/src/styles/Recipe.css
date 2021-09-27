@@ -30,6 +30,7 @@
     width: 100%;
     margin-top: -20px;
 }
+
 #divTitle{
     display: flex;
     background-color:rgba(241, 177, 0, 0.247);
@@ -46,7 +47,9 @@
 #imgD{
     display: flex;
     width: 100%;
-    max-width: 450px;
+    max-width: 400px;
+    height: auto;
+    max-height: 300px;
     border-radius: 20px;
 }
 #typeD{
@@ -80,4 +83,33 @@
 }
 .itemStep{
     color:  #ff9900;
+}
+.resume{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+}
+.color{
+    color: black;
+}
+.divSteps{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.summary a{
+    color: orange;
+}
+.errorPage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: 2em;
+    max-width: 600px;
+    text-align: center;
+    color: #ff9900;
 }
