@@ -60,7 +60,7 @@ router.get('/recipes',async (req,res) => {
  
     const querySearch = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?number=8&query=${req.query.name}&addRecipeInformation=true&apiKey=${API_KEY}`)
  
-     const searchDb = await Recipe.findAll({where : {title :{[Op.like] : `%${req.query.name}%`}}})
+     const searchDb = await Recipe.findAll({where : {title :{[Op.iLike] : `%${req.query.name}%`}}})
   
 
          searchDb.map(elemento =>{
