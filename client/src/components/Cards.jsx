@@ -26,7 +26,7 @@ export default function Cards(){
 
    const next = (e) =>{
         e.preventDefault();
-        if((allRecipes.length-1) > currentPage + 5){
+        if((allRecipes.length-1) > currentPage + 9){
         setCurrentPage(currentPage + 9)
         setCount(count + 1)
     }

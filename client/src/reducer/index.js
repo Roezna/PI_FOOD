@@ -58,7 +58,7 @@ export default function Reducer(state = initialState, action){
                             else if(a.title > b.title) return 1
                             else return 0
                         }),
-                        recipesLoaded : state.recipesLoaded.length > 0 ? state.recipesLoaded.sort(function(a, b){
+                        recipesLoaded : state.recipesLoaded !== null ? state.recipesLoaded.sort(function(a, b){
                             if(a.title < b.title) return -1
                             else if(a.title > b.title) return 1
                             else return 0
@@ -74,7 +74,7 @@ export default function Reducer(state = initialState, action){
                             else if(a.title > b.title) return -1
                             else return 0
                         }),
-                        recipesLoaded : state.recipesLoaded.length > 0 ? state.recipesLoaded.sort(function(a, b){
+                        recipesLoaded : state.recipesLoaded !== null ? state.recipesLoaded.sort(function(a, b){
                             if(a.title < b.title) return 1
                             else if(a.title > b.title) return -1
                             else return 0
@@ -91,7 +91,7 @@ export default function Reducer(state = initialState, action){
                             else if(a.healthScore > b.healthScore) return -1
                             else return 0
                         }),
-                        recipesLoaded : state.recipesLoaded.length > 0 ? state.recipesLoaded.sort(function(a, b){
+                        recipesLoaded : state.recipesLoaded !== null ? state.recipesLoaded.sort(function(a, b){
                             if(a.healthScore < b.healthScore) return 1
                             else if(a.healthScore > b.healthScore) return -1
                             else return 0
@@ -108,7 +108,7 @@ export default function Reducer(state = initialState, action){
                             else if(a.spoonacularScore > b.spoonacularScore) return -1
                             else return 0
                         }),
-                        recipesLoaded : state.recipesLoaded.length > 0 ? state.recipesLoaded.sort(function(a, b){
+                        recipesLoaded : state.recipesLoaded !== null ? state.recipesLoaded.sort(function(a, b){
                             if(a.spoonacularScore < b.spoonacularScore) return 1
                             else if(a.spoonacularScore > b.spoonacularScore) return -1
                             else return 0
