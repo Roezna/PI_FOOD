@@ -3,106 +3,182 @@ require('dotenv').config();
 const {API_KEY} = process.env;
 const axios = require('axios').default;
 const {conn} = require('../db.js')
-const { Recipe, Type_diet} = conn.models;
+const { Recipe, Type_diet, recipe_diet} = conn.models;
+const multer = require('multer')
+const path = require('path')
+const { v4: uuidv4 } = require('uuid');
+const {Op} = require ("sequelize");
+const fs = require('fs');
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 
 
 const router = Router();
-
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
-/* [ ] GET /recipes?name="...":
-Obtener un listado de las recetas que contengan la palabra ingresada como query parameter
-Si no existe ninguna receta mostrar un mensaje adecuado
-[ ] GET /recipes/{idReceta}:
-Obtener el detalle de una receta en particular
-Debe traer solo los datos pedidos en la ruta de detalle de receta
-Incluir los tipos de dieta asociados
-[ ] GET /types:
-Obtener todos los tipos de dieta posibles
-En una primera instancia, cuando no exista ninguno, deberán precargar la base de datos con los tipos de datos indicados por spoonacular acá
-[ ] POST /recipe:
-Recibe los datos recolectados desde el formulario controlado de la ruta de creación de recetas por body
-Crea una receta en la base de datos */
+const types = ['gluten Free', 'ketogenic', 'vegetarian', 'lacto ovo vegetarian',
+'vegan', 'pescetarian', 'paleo', 'primal', 'whole30', 'dairy free']
+
+
+types.forEach(async(elemento, indice)=>{
+
+let consulta = await Type_diet.findOne({where : {name : elemento}})
+   
+    if(consulta){
+        return
+    }
+    else{
+      let carga = await Type_diet.create({
+        name: elemento
+       })
+       console.log(carga)
+    }
+   
+
+})
+
+
+const diskStorage = multer.diskStorage({
+    destination: path.join(__dirname, '../images'),
+    filename : (req, file, cb) => {
+        cb(null, 'MORE-' + Date.now() + '-' + file.originalname)
+    }
+})
+
+const fileUpload = multer({
+    storage: diskStorage,
+}).single('image')
+
 
 router.get('/recipes',async (req,res) => {
-try{
 
-    const query = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?number=6&addRecipeInformation=true&apiKey=${API_KEY}`)
-
-    res.send(query.data.results)
-
-/*     if(req.query.name){
-       
-        let busqueda = []
+      if(req.query.name){
         
-        query.data.results.forEach((elemento, id)=>{
+    const recipes = []
+ 
+    const querySearch = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?number=8&query=${req.query.name}&addRecipeInformation=true&apiKey=${API_KEY}`)
+ 
+     const searchDb = await Recipe.findAll({where : {title :{[Op.like] : `%${req.query.name}%`}}})
+  
 
-            if(elemento.title.includes(req.query.name)){
-                busqueda.push(elemento)
-            }
+         searchDb.map(elemento =>{
+                recipes.push(elemento.dataValues)
+            })  
+            
 
-        })
+        querySearch.data.results.forEach(elemento => {
+            recipes.push(elemento)
+        }) 
 
-        res.send(busqueda)
-
-    }
+        if(recipes.length > 0){
+            res.json(recipes)
+        }
+        else{
+            res.json('error')
+        }
+       
+     }
 
     else{
-      res.send(query.data.results)
-    }   */
+
+        const response = []
+        
+        const query = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?number=6&addRecipeInformation=true&apiKey=${API_KEY}`)
+            query.data.results.map(elemento => response.push(elemento))
+
+        const queryDb = await Recipe.findAll();
+        queryDb.map(elemento => response.push(elemento.dataValues))
+
+        res.send(response)
+      
 
 }
-catch{
-      res.send('error')
-  }
   
 })
 
  router.get('/recipes/:id',async (req,res) => {
+    
+    
+        const searchDb = await Recipe.findByPk(req.params.id)
+    
 
-try{     
-    const query = await axios.get(`https://api.spoonacular.com/recipes/${req.params.id}/information?apiKey=${API_KEY}`)
-    res.send(query.data)  
-}
-catch{
-    res.send('Error')
-}
+    if(searchDb){
+        res.json(searchDb)
+    }
+    else{
+        const searchAPI = await axios.get(`https://api.spoonacular.com/recipes/${req.params.id}/information?apiKey=${API_KEY}`)
+        res.json(searchAPI.data)
+    }
+
 
 }) 
 
 router.get('/types', async (req,res) => {
 
-    try{
-        const query = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&number=100&apiKey=${API_KEY}`)
-        if(type === query.data.diets){
-            res.send(query.data)
-        }
+    const searchId = await Type_diet.findOne({where : {name : req.query.type}})
+
+    if(searchId){
+
+        const searchRecipes = await recipe_diet.findAll({where : {typeDietId : searchId.dataValues.id}})
+        res.send(searchRecipes)
     }
-    catch{
-        res.send('Error')
+        
+    else{
+        res.json('error')
     }
-   
 })
 
-router.post('/recipe', async (req,res) => {
+router.post('/recipe', fileUpload ,async (req,res) => {
+    const {diets,healthScore,name,resume,spoonScore,steps} = req.body
 
-    const {name,resume,reputation,level_health,steps,diets} = req.body
+    let stepsArray = steps.split('&%')
+    let id = uuidv4();
+    let dietsArray = diets.split(',')
 
+    const converting = fs.readFileSync(path.join(__dirname + '/../images/' + req.file.filename))
+   
+    fs.writeFileSync(path.join(__dirname, '../dbimages/' + id + '.png'), converting)
 
-        await Recipe.create({
-        name: name,
-        resume: resume,
-        reputation : reputation,
-        level_health : level_health,
-        steps : steps,
-        diets : diets
+    const data =  `http://localhost:3001/${id}.png`
+   
+  let carga =  await Recipe.create({
+        id : id,
+        title: name,
+        summary: resume,
+        spoonacularScore : spoonScore,
+        healthScore : healthScore,
+        steps : stepsArray,
+        diets : dietsArray,
+        image : data
     })
 
-    await res.send('se cargo piola')
+    fs.unlinkSync(path.join(__dirname + '/../images/' + req.file.filename))
+
+     await dietsArray.forEach(async(elemento)=>{
+
+        let diet = await Type_diet.findOne({where: {name : elemento}})
+ 
+        await carga.addType_diet([diet])
+
+
+     })
+
+
+    let isCreated = await Recipe.findByPk(id)
+
+    if(isCreated){
+      
+     res.json({
+            message : 'The recipe has been created successfully',
+            data : isCreated
+        }) 
+
+     }
+     else{
+        res.json({message: 'There was an error creating the recipe, try again'})
+     }
 
 })
 
