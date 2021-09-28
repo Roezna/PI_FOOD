@@ -4,7 +4,7 @@
     align-items: center;
     width: 100%;
     flex-direction: column;
-
+    height: 100%;
 }
 .recipeDetail{
     display: flex;
@@ -12,6 +12,7 @@
     justify-content: center;
     width: 100%;
     flex-wrap: wrap;
+    height: 100%;
 }
 .division1{
     display: flex;
