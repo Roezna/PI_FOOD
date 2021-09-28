@@ -39,7 +39,7 @@ export default function Reducer(state = initialState, action){
             case 'CREATE_RECIPE' :
             return{
                 ...state,
-                allRecipes : [...state.allRecipes, action.payload.recipe],
+                allRecipes : [action.payload.recipe, ...state.allRecipes],
                 status : action.payload.message,
                 recipeDetail :  action.payload.recipe
            };
@@ -118,10 +118,9 @@ export default function Reducer(state = initialState, action){
                 }
              }
              case 'FILTER' :{
-
-            const filterApi = state.allRecipes.filter(elemento => elemento.diets.includes(action.payload.diet))
-                return { ...state ,
-                 recipesLoaded :  filterApi
+               return { ...state ,
+                 recipesLoaded :  state.searching === '' ? state.allRecipes.filter(elemento => elemento.diets.includes(action.payload)) : state.recipesLoaded.filter(elemento => elemento.diets.includes(action.payload)) 
+                
                 }
              }
 

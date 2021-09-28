@@ -1,5 +1,6 @@
 import Nav from "./Nav"
 import Swal from 'sweetalert2'
+import Footer from "./Footer"
 import '../styles/CreateRecipe.css'
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -77,7 +78,7 @@ export default function CreateRecipe() {
 
 
 
-    const types = ['gluten Free', 'ketogenic', 'vegetarian', 'lacto ovo vegetarian',
+    const types = ['gluten free', 'ketogenic', 'vegetarian', 'lacto ovo vegetarian',
 'vegan', 'pescetarian', 'paleo', 'primal', 'whole30', 'dairy free']
 
     const handleClick = async (e) => {
@@ -350,6 +351,7 @@ export default function CreateRecipe() {
 
 
             </div>
+            <Footer />
         </div>
     )
 }

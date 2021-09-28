@@ -43,7 +43,6 @@ return(
     <div className="navbar">
             <div className='routes'>
                 <Link  to="/home" onClick = {() => home()} className='navLink'>Home</Link>
-                <Link  to="/about" className='navLink'>About</Link>
                 <Link  to="/recipe" className='navLink'>Create recipe</Link>
             </div>
             <div className='logo'>

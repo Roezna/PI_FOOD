@@ -99,19 +99,10 @@ export const orderRecipes = (op) => {
 }
 
 export const filterRecipe = (type) => {
-    return function(dispatch){
-        return fetch(`http://localhost:3001/types?type=${type}`)
-        .then(res => res.json())
-        .then(res => {
-            dispatch({
-            type: 'FILTER',
-            payload : {
-                data : res.data,
-                diet : type
-            }
-        })
-    })
-    
+    return {
+             type: 'FILTER',
+            payload :  type
+
     }
 
 }

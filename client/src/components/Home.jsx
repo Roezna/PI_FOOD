@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import  {getRecipes, loading} from '../actions/index'
 import {useEffect} from "react";
 import '../styles/Home.css'
+import Footer from "./Footer";
 
 export default function Home(){
 
@@ -28,7 +29,7 @@ export default function Home(){
          <Nav place={true} />
          {load && <div className='loading'><p className='logito'><i>MORE...</i></p></div>}
          {!load && <Cards/>}   
-        
+        <Footer />    
         </div>
     )
 }

@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";/* 
 import { Redirect } from "react-router-dom"; */
 import Nav from "./Nav";
+import Footer from "./Footer";
 import '../styles/Recipe.css'/* 
 import { useEffect, useState } from "react"; */
 export default function Recipe(){
@@ -80,7 +81,7 @@ export default function Recipe(){
                 
             </div>
                   
-       
+       <Footer />
         </div>
     )
 }
