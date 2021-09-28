@@ -10,6 +10,7 @@ export default function Cards(){
    let recipes = useSelector(state => state.recipesLoaded)
    let searching = useSelector(state => state.searching)
    let allRecipes = useSelector(state => state.allRecipes)
+   let filtered = useSelector(state => state.recipesFilter)
    const dispatch = useDispatch()
    const [change, setChange] = useState(false)
 
@@ -27,13 +28,13 @@ export default function Cards(){
 
    const next = (e) =>{
         e.preventDefault();
-        if((recipes !== null && recipes.length)>= currentPage + 9){
+        if((filtered !== null && filtered.length-1)>= currentPage + 9){
             setCurrentPage(currentPage + 9)
             setCount(count + 1)
             return
         }
         else{
-             if(allRecipes.length >= currentPage + 9 && recipes === null){
+             if(allRecipes.length >= currentPage + 9 && filtered === null){
                 setCurrentPage(currentPage + 9)
                 setCount(count + 1)
                 return
@@ -77,14 +78,7 @@ const filter = async (e) =>{
 
 
     return(
-        <div className='contenedor'>
-
-
-           
-            {searching !== '' && recipes === 'error' &&
-            <div className='searchBox'>
-                <p className='badResult'>Results not found for: <span className='resultData'>"{searching}"</span></p>
-            </div>}     
+        <div className='contenedor'>    
             
         <div className='POF'>
         
@@ -98,33 +92,43 @@ const filter = async (e) =>{
             </select>
             
         </div>
-        {(allRecipes || recipes !== null) && 
+        {(allRecipes || filtered !== null) && 
            <div className='pagination'>
              <button className='btn-page' onClick={(e) => prev(e)}>{'<'} Prev</button> 
-             <span className='dataPagination'>Page: {count}/{Math.ceil(recipes === null || recipes === 'error' ? allRecipes.length/9 : recipes.length/9)}</span>
+             <span className='dataPagination'>Page: {count}/{Math.ceil(filtered === null ? allRecipes.length/9 : filtered.length/9)}</span>
              <button className='btn-page' onClick={(e) => next(e)}>Next {'>'} </button>
              </div> }
 
              <div className='select'>
-          {searching === '' &&   <select onChange={(value) => filter(value)} className='elSelect'>
+          {(allRecipes || filtered !== null) &&   <select onChange={(value) => filter(value)} className='elSelect'>
             <option value="default">Filter (Default)</option>
             {types.map((elemento)=>{
                 return <option key={elemento} className='option' value={elemento}>{elemento}</option>
             })}
             </select>}
-
-            {searching !== '' && recipes !== 'error' &&
-            <div className='searchBox'>
-                <span className='goodResult'>Results for: <span className='resultData'>"{searching}"</span></span>
-            </div>}
             
         </div>
       
         </div>
 
+        {searching !== '' && recipes === 'error' &&
+            <div className='searchBox'>
+                <p className='badResult'>Results not found for: <span className='resultData'>"{searching}"</span></p>
+            </div>} 
+
+        {searching !== '' && recipes !== 'error' &&
+            <div className='searchBox'>
+                <span className='goodResult'>Results for: <span className='resultData'>"{searching}"</span></span>
+            </div>}
+
         <div id='divCards'>
+
+            {filtered !== null && filtered.length === 0 && 
+            <div className='unFilter'>
+                <span className='textUnFilter'>Results not found for this filter</span>
+            </div>}
             
-            {(recipes === null || recipes === 'error')  && filteredRecipes(allRecipes).map(function(recipe){
+            {filtered === null && filteredRecipes(allRecipes).map(function(recipe){
                return <Card 
                key={recipe.id}
                image={recipe.image}
@@ -133,8 +137,10 @@ const filter = async (e) =>{
                id={recipe.id}
                />
             })}
-        
-          {recipes !== 'error' && recipes !== null  && filteredRecipes(recipes).map(function(recipe){
+
+
+
+            {filtered !== null && filtered.length > 0  && filteredRecipes(filtered).map(function(recipe){
                return <Card key={recipe.id}
                image={recipe.image}
                title={recipe.title}

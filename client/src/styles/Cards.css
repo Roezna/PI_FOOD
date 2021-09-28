@@ -80,6 +80,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 10px auto;
 }
 .goodResult{
     font-size: 1.2em;
@@ -147,4 +148,15 @@
 .option:checked{
     background-color: rgb(255, 255, 255);
     color: rgb(255, 153, 0);
+}
+.unFilter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 100px;
+}
+.textUnFilter{
+    color: red;
+    font-size: 1.5em;
 }

@@ -4,7 +4,8 @@ const initialState = {
     recipeDetail : [],
     searching : '',
     status : '',
-    loading : false
+    loading : false,
+    recipesFilter : null
 };
 
 export default function Reducer(state = initialState, action){
@@ -17,13 +18,15 @@ export default function Reducer(state = initialState, action){
                 searching : '',
                 status : '',
                 loading : false,
-                recipeDetail : []
+                recipeDetail : [],
+                recipesFilter : null
             };
         case 'GET_RECIPES' :
             return{
                 ...state,
                 searching : action.payload.recipe,
                 recipesLoaded : action.payload.data,
+                recipesFilter : action.payload.data,
                 loading : false
                 }
             
@@ -62,6 +65,11 @@ export default function Reducer(state = initialState, action){
                             if(a.title < b.title) return -1
                             else if(a.title > b.title) return 1
                             else return 0
+                        }) : null,
+                        recipesFilter : state.recipesFilter !== null ? state.recipesFilter.sort(function(a, b){
+                            if(a.title < b.title) return -1
+                            else if(a.title > b.title) return 1
+                            else return 0
                         }) : null
                    }
                 }
@@ -75,6 +83,11 @@ export default function Reducer(state = initialState, action){
                             else return 0
                         }),
                         recipesLoaded : state.recipesLoaded !== null ? state.recipesLoaded.sort(function(a, b){
+                            if(a.title < b.title) return 1
+                            else if(a.title > b.title) return -1
+                            else return 0
+                        }) : null,
+                        recipesFilter : state.recipesFilter !== null ? state.recipesFilter.sort(function(a, b){
                             if(a.title < b.title) return 1
                             else if(a.title > b.title) return -1
                             else return 0
@@ -95,6 +108,11 @@ export default function Reducer(state = initialState, action){
                             if(a.healthScore < b.healthScore) return 1
                             else if(a.healthScore > b.healthScore) return -1
                             else return 0
+                        }) : null,
+                        recipesFilter : state.recipesFilter !== null ? state.recipesFilter.sort(function(a, b){
+                            if(a.healthScore < b.healthScore) return 1
+                            else if(a.healthScore > b.healthScore) return -1
+                            else return 0
                         }) : null
 
                     }
@@ -112,17 +130,43 @@ export default function Reducer(state = initialState, action){
                             if(a.spoonacularScore < b.spoonacularScore) return 1
                             else if(a.spoonacularScore > b.spoonacularScore) return -1
                             else return 0
+                        }) : null,
+                        recipesFilter : state.recipesFilter !== null ? state.recipesFilter.sort(function(a, b){
+                            if(a.spoonacularScore < b.spoonacularScore) return 1
+                            else if(a.spoonacularScore > b.spoonacularScore) return -1
+                            else return 0
                         }) : null
 
                     }
                 }
              }
              case 'FILTER' :{
-               return { ...state ,
-                 recipesLoaded :  state.searching === '' ? state.allRecipes.filter(elemento => elemento.diets.includes(action.payload)) : state.recipesLoaded.filter(elemento => elemento.diets.includes(action.payload)) 
-                
-                }
-             }
+
+                if(action.payload.data.length > 0 && state.recipesLoaded === null){
+                    action.payload.data.forEach(elemento => {
+                        let found = true;
+                        state.allRecipes.forEach(recipe => {
+
+                            if(elemento.id === recipe.id){
+                                found = false
+                                return
+                            }
+                        })  
+                        if(found) state.allRecipes.push(elemento)
+                })
+            }
+
+                let filter = []
+                  
+                state.recipesLoaded !== null &&  state.recipesLoaded !== 'error'
+                ?  filter = state.recipesLoaded.filter(diet => diet.diets.includes(action.payload.tipo))
+                : filter = state.allRecipes.filter(diet => diet.diets.includes(action.payload.tipo))
+
+               return { 
+                   ...state ,
+                 recipesFilter : filter
+               }
+            }
 
         default : return state;
     }
