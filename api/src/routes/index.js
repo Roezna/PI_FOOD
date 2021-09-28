@@ -1,4 +1,4 @@
-const { Router } = require('express');
+const { Router, response } = require('express');
 require('dotenv').config();
 const {API_KEY} = process.env;
 const axios = require('axios').default;
@@ -18,7 +18,7 @@ const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
-const types = ['gluten Free', 'ketogenic', 'vegetarian', 'lacto ovo vegetarian',
+const types = ['gluten free', 'ketogenic', 'vegetarian', 'lacto ovo vegetarian',
 'vegan', 'pescetarian', 'paleo', 'primal', 'whole30', 'dairy free']
 
 
@@ -58,7 +58,7 @@ router.get('/recipes',async (req,res) => {
         
     const recipes = []
  
-    const querySearch = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?number=8&query=${req.query.name}&addRecipeInformation=true&apiKey=${API_KEY}`)
+    const querySearch = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?number=50&query=${req.query.name}&addRecipeInformation=true&apiKey=${API_KEY}`)
  
      const searchDb = await Recipe.findAll({where : {title :{[Op.iLike] : `%${req.query.name}%`}}})
   
@@ -85,14 +85,14 @@ router.get('/recipes',async (req,res) => {
 
         const response = []
         
-        const query = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?number=6&addRecipeInformation=true&apiKey=${API_KEY}`)
+        const query = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?number=100&addRecipeInformation=true&apiKey=${API_KEY}`)
             query.data.results.map(elemento => response.push(elemento))
 
         const queryDb = await Recipe.findAll();
         queryDb.map(elemento => response.push(elemento.dataValues))
-
+        
         res.send(response)
-      
+       
 
 }
   
@@ -117,17 +117,13 @@ router.get('/recipes',async (req,res) => {
 
 router.get('/types', async (req,res) => {
 
-    const searchId = await Type_diet.findOne({where : {name : req.query.type}})
+    const typeDiet = await Type_diet.findOne({where : {name : req.query.type}})
 
-    if(searchId){
+    const recipes = await typeDiet.getRecipes()
 
-        const searchRecipes = await recipe_diet.findAll({where : {typeDietId : searchId.dataValues.id}})
-        res.send(searchRecipes)
-    }
-        
-    else{
-        res.json('error')
-    }
+
+        console.log(recipes)
+       
 })
 
 router.post('/recipe', fileUpload ,async (req,res) => {
