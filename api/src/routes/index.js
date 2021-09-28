@@ -122,7 +122,8 @@ router.get('/types', async (req,res) => {
     const recipes = await typeDiet.getRecipes()
 
 
-        console.log(recipes)
+            res.json(recipes)
+        
        
 })
 
