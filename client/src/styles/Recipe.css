@@ -101,7 +101,7 @@
     width: 100%;
     max-width: 600px;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
 }
 .summary a{
     color: orange;
