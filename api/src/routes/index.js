@@ -18,27 +18,6 @@ const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
-const types = ['gluten free', 'ketogenic', 'vegetarian', 'lacto ovo vegetarian',
-'vegan', 'pescetarian', 'paleo', 'primal', 'whole30', 'dairy free']
-
-
-types.forEach(async(elemento, indice)=>{
-
-let consulta = await Type_diet.findOne({where : {name : elemento}})
-   
-    if(consulta){
-        return
-    }
-    else{
-      let carga = await Type_diet.create({
-        name: elemento
-       })
-       console.log(carga)
-    }
-   
-
-})
-
 
 const diskStorage = multer.diskStorage({
     destination: path.join(__dirname, '../images'),
@@ -117,12 +96,11 @@ router.get('/recipes',async (req,res) => {
 
 router.get('/types', async (req,res) => {
 
-    const typeDiet = await Type_diet.findOne({where : {name : req.query.type}})
+    const typeDiet = await Type_diet.findAll()
 
-    const recipes = await typeDiet.getRecipes()
+    console.log(typeDiet)
 
-
-            res.json(recipes)
+            res.json(typeDiet)
         
        
 })

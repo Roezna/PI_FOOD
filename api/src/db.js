@@ -37,6 +37,25 @@ const { Recipe, Type_diet} = sequelize.models;
 Recipe.belongsToMany(Type_diet, {through: 'recipe_diet'});
 Type_diet.belongsToMany(Recipe, {through: 'recipe_diet'});
 
+const types = ['gluten free', 'ketogenic', 'vegetarian', 'lacto ovo vegetarian',
+'vegan', 'pescetarian', 'paleo', 'primal', 'whole30', 'dairy free']
+
+
+types.forEach(async(elemento, indice)=>{
+
+let consulta = await Type_diet.findOne({where : {name : elemento}})
+   
+    if(consulta){
+        return
+    }
+    else{
+      let carga = await Type_diet.create({
+        name: elemento
+       })
+       console.log(carga)
+    }
+  })
+
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize,     // para importart la conexión { conn } = require('./db.js');
