@@ -1,14 +1,21 @@
-import { useSelector } from "react-redux";/* 
-import { Redirect } from "react-router-dom"; */
+import { useSelector } from "react-redux";
 import Nav from "./Nav";
 import Footer from "./Footer";
-import '../styles/Recipe.css'/* 
-import { useEffect, useState } from "react"; */
+import '../styles/Recipe.css'
+
+
+import {useLocation} from "react-router-dom";
 export default function Recipe(){
 
     const recipe = useSelector(state => state.recipeDetail) 
      const load = useSelector(state => state.loading)
-   
+     const status = useSelector(state => state.status)
+
+     
+    const search = useLocation().search;
+    const name = new URLSearchParams(search).get('recipe');
+
+
   
     function createMarkup() {
         return {__html: recipe.summary};
@@ -19,7 +26,7 @@ export default function Recipe(){
         <div className={load ? 'carga' : 'containerDetail'}>
          <Nav place={false} />
          {load && <div className='loading'><p className='logito'><i>MORE...</i></p></div>} 
-        
+        {!load && name && <div className='messageCreate'><span className='textCreate'>{status !== '' && status}</span></div>  }
              {!load && recipe.length < 1 && <div className='errorPage'><p>You have reloaded the page and the data on this page has been lost. Go back to Home</p></div>}
              <div id='divTitle'>
             {!load && recipe.title && <span id='titleD'>{recipe.title}</span>}
@@ -55,7 +62,7 @@ export default function Recipe(){
                     {!load && recipe.analyzedInstructions && recipe.analyzedInstructions.length > 0 && recipe.analyzedInstructions[0].steps.map((steps,indice)=>{
                                  
                         return <div key={indice} className='steps'> 
-                                <p><span className='itemStep'>{steps.number})</span> {steps.step}</p>
+                                <p className='summary'><span className='itemStep'>{steps.number})</span> {steps.step}</p>
 
                                 </div>
                                         
@@ -66,10 +73,10 @@ export default function Recipe(){
                    <div className='divSteps'>
                    <p className='subtitle'>Step <span className='middle'> by </span> Step</p>
                     {!load && recipe.steps && recipe.steps.length > 0 && recipe.steps.map((steps,indice)=>{
-                                 if(steps === '') return 
+                                 if(steps === '') return null
 
                         return <div key={indice} className='steps'> 
-                                <p><span className='itemStep'>{(indice+1)+''})</span> {steps}</p>
+                                <p className='summary'><span className='itemStep'>{(indice+1)+''})</span> {steps}</p>
                         
                                 </div>
                                 

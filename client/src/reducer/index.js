@@ -2,6 +2,7 @@ const initialState = {
     allRecipes : [],
     recipesLoaded : null,
     recipeDetail : [],
+    types : null,
     searching : '',
     status : '',
     loading : false,
@@ -142,29 +143,22 @@ export default function Reducer(state = initialState, action){
              }
              case 'FILTER' :{
 
-                if(action.payload.data.length > 0 && state.recipesLoaded === null){
-                    action.payload.data.forEach(elemento => {
-                        let found = true;
-                        state.allRecipes.forEach(recipe => {
-
-                            if(elemento.id === recipe.id){
-                                found = false
-                                return
-                            }
-                        })  
-                        if(found) state.allRecipes.push(elemento)
-                })
-            }
-
                 let filter = []
                   
                 state.recipesLoaded !== null &&  state.recipesLoaded !== 'error'
-                ?  filter = state.recipesLoaded.filter(diet => diet.diets.includes(action.payload.tipo))
-                : filter = state.allRecipes.filter(diet => diet.diets.includes(action.payload.tipo))
+                ?  filter = state.recipesLoaded.filter(diet => diet.diets.includes(action.payload))
+                : filter = state.allRecipes.filter(diet => diet.diets.includes(action.payload))
 
                return { 
                    ...state ,
                  recipesFilter : filter
+               }
+            }
+
+            case 'TYPES' :{
+               return { 
+                   ...state ,
+                 types : action.payload
                }
             }
 

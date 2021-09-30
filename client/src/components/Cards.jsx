@@ -11,11 +11,9 @@ export default function Cards(){
    let searching = useSelector(state => state.searching)
    let allRecipes = useSelector(state => state.allRecipes)
    let filtered = useSelector(state => state.recipesFilter)
+   let types = useSelector(state => state.types)
    const dispatch = useDispatch()
    const [change, setChange] = useState(false)
-
-   const types = ['gluten free', 'ketogenic', 'vegetarian', 'lacto ovo vegetarian',
-'vegan', 'pescetarian', 'paleo', 'primal', 'whole30', 'dairy free']
 
 
    const [currentPage, setCurrentPage] = useState(0);
@@ -68,9 +66,7 @@ const filter = async (e) =>{
         dispatch(getRecipes(false))
     }
     else{
-    setChange(false)
    await dispatch(filterRecipe(e.target.value))
-    setChange(true)
     setCurrentPage(0)
     setCount(1)
 }
@@ -102,8 +98,8 @@ const filter = async (e) =>{
              <div className='select'>
           {(allRecipes || filtered !== null) &&   <select onChange={(value) => filter(value)} className='elSelect'>
             <option value="default">Filter (Default)</option>
-            {types.map((elemento)=>{
-                return <option key={elemento} className='option' value={elemento}>{elemento}</option>
+            {types !== null && types.map((elemento)=>{
+                return <option key={elemento.name} className='option' value={elemento.name}>{elemento.name}</option>
             })}
             </select>}
             
@@ -140,7 +136,7 @@ const filter = async (e) =>{
 
 
 
-            {filtered !== null && filtered.length > 0  && filteredRecipes(filtered).map(function(recipe){
+            {filtered !== null && recipes !== 'error' && filtered.length > 0  && filteredRecipes(filtered).map(function(recipe){
                return <Card key={recipe.id}
                image={recipe.image}
                title={recipe.title}

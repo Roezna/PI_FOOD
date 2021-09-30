@@ -1,17 +1,24 @@
 import Nav from "./Nav"
-import Swal from 'sweetalert2'
 import Footer from "./Footer"
 import '../styles/CreateRecipe.css'
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { createRecipe } from "../actions";
+import { createRecipe, getTypes } from "../actions";
 import { useRef } from "react"
 import { useEffect } from "react"
 import { Redirect } from "react-router"
+
 export default function CreateRecipe() {
 
     const dispatch = useDispatch();
     const status = useSelector(state => state.status);
+    const types = useSelector(state => state.types)
+
+    useEffect(()=>{
+        if(types === null){
+            dispatch(getTypes())
+        }
+    },[dispatch,types])
 
     const [values, setValues] = useState({
         name: '',
@@ -31,6 +38,7 @@ export default function CreateRecipe() {
         image : null,
         resume : null,
         name : null,
+        score : null
     })
 
     const [valStep, setValStep] = useState(false)
@@ -38,16 +46,10 @@ export default function CreateRecipe() {
     const [redirect, setRedirect] = useState(false);
     const [validate, setValidate] = useState(false)
 
-    useEffect(() => {
-       
+    useEffect(() => {     
         if(status !== ''){
-            Swal.fire(
-                status
-                )
-                setRedirect(true)
-    }
-        
-
+            setRedirect(true)
+        }
     },[status,dispatch])
 
     useEffect(()=>{
@@ -76,10 +78,6 @@ export default function CreateRecipe() {
 
     const inputRef = useRef();
 
-
-
-    const types = ['gluten free', 'ketogenic', 'vegetarian', 'lacto ovo vegetarian',
-'vegan', 'pescetarian', 'paleo', 'primal', 'whole30', 'dairy free']
 
     const handleClick = async (e) => {
 
@@ -119,6 +117,32 @@ export default function CreateRecipe() {
     const handleChange = async (e) => {
         e.preventDefault();
 
+        if(e.target.name === 'spoonScore' || e.target.name === 'healthScore'){
+                if(e.target.value > 100 || e.target.value < 0){
+                    setErrors({
+                        ...errors,
+                        score : true
+                    })
+                    setValues({
+                        ...values,
+                        [e.target.name] : 0
+                    })
+                    return
+                    
+                }
+                else{
+                    setErrors({
+                        ...errors,
+                        score : false
+                    })
+                    setValues({
+                        ...values,
+                        [e.target.name] : parseInt(e.target.value)
+                    })
+                    return
+                }
+        }
+
         if(e.target.value === ''){
             setValues({
                 ...values,
@@ -129,6 +153,7 @@ export default function CreateRecipe() {
                 ...errors,
                 [e.target.name] : true
             })
+
         }
         }
         else{
@@ -217,7 +242,8 @@ export default function CreateRecipe() {
              name : errors.name === true || errors.name === null ? true : false,
              resume : errors.resume === true || errors.resume === null ? true : false,
              diets : errors.diets === true || errors.diets === null ? true : false,
-             image : errors.image === true || errors.image === null ? true : false,
+             image : errors.image === true || errors.image === null ? true : false,           
+             score : errors.score === true ? true : false,
          })
 
 
@@ -244,7 +270,7 @@ export default function CreateRecipe() {
 
     return (
         <div id='createRecipe'><Nav place={false} />
-        {redirect && <Redirect to='/recipeDetail'/>}
+        {redirect && <Redirect to='/recipeDetail?recipe=new'/>}
             <div className='formulario'>
                 <form  className='form'>
                     <span id='titleCreate'>Create Recipe</span>
@@ -272,6 +298,7 @@ export default function CreateRecipe() {
                                     <label htmlFor="" className='inputTitle'>Health score</label>
                                     <input type="number" name='healthScore' onChange={(e) => handleChange(e)} className='score' />
                                 </div>
+                                {errors.score &&  <label className='setErrors'>enter puntuation between 0 and 100 (otherwise it will be 0)</label>}
                             </div>
                         </div>
                         <div className='stepAndTypes'>
@@ -290,11 +317,11 @@ export default function CreateRecipe() {
                             <div className='typesDiet'>
                                 <label htmlFor="" className='inputTitle'>Type of diet</label>
                                 <div id='orderTypes'>
-                                    {types.map((tipo, indice) => {
-                                        return <div className={indice + ' multipleTypes'} key={tipo}>
-                                            <input type="button" name={tipo} onClick={(e) => handleClick(e)} /><label htmlFor="" > {tipo}</label>
+                                    {types &&  types.map((tipo, indice) => {
+                                        return <div className={indice + ' multipleTypes'} key={tipo.name}>
+                                            <input type="button" name={tipo.name} onClick={(e) => handleClick(e)} /><label htmlFor="" > {tipo.name}</label>
                                         </div>
-                                    })}
+                                    }) }    
                                     {errors.diets && <label className='setErrors'>Select at least one type of diet</label>}
                                 </div>
                             </div>
